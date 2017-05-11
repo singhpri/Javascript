@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>keyBoard Event</title>
+
+</head>
+<body>
+  <canvas id ="canvas" width ="500" height ="500"></canvas>
+  <script>
+    var canvas, context;
+    canvas = document.getElementById('canvas');
+    context = canvas.getContext('2d');
+    context.interval = setInterval(updatePos, 20);
+    window.addEventListener('keydown', function (e) {
+      context.key = e.keyCode;
+    })
+    window.addEventListener('keyup', function (e) {
+      context.key = false;
+    })
+    /*var player = new item(10,10,10,10);
+    function item(width, height, x, y){
+      this.width = width;
+      this.height = height;
+      this.x = x;
+      this.y = y;
+      this.moveX = 0;
+      this.moveY = 0;
+
+      this.update = function(){
+        context.fillStyle = 'rgb(235,235,235)';
+        context.fillRect(0,0,canvas.width,canvas.height);
+        context.fill();
+        context.fillStyle = 'rgb(255,0,0)';
+        context.fillRect(this.x,this.y,this.width,this.height);
+        context.fill();
+    }
+      this.pos = function(){
+        this.x += this.moveX;
+        this.y += this.moveY;
+      }
+    }*/
+
+    var image = new Image();
+    var player = new item(image, canvas.width/3, canvas.height-image.height);
+
+    function item(image, x, y){
+      this.x = x;
+      this.y = y;
+      this.image = image;
+      this.moveX = 0;
+      this.moveY = 0;
+      this.update = function(){
+        context.fillStyle = 'rgb(235,235,235)';
+        context.fillRect(0, 0, canvas.width, canvas.height/2);
+        image.onload = function() {
+            context.drawImage(image, this.x, this.y);
+      }
+      image.src = "images_src/logo.svg";
+    }
+      this.pos = function(){
+        this.x += this.moveX;
+        this.y += this.moveY;
+    }
+  }
+    function updatePos(){
+      //context.clearRect(0,0,canvas.width,canvas.height);
+      player.moveX = 0;
+      player.moveY = 0;
+      if (context.key && context.key == 37) {player.moveX = -1; }
+      if (context.key && context.key == 39) {player.moveX = 1; }
+      if (context.key && context.key == 38) {player.moveY = -1; }
+      if (context.key && context.key == 40) {player.moveY = 1; }
+      player.pos();
+      player.update();
+  }
+
+</script>
+</body>
+</html>
